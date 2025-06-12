@@ -6,4 +6,7 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
-    command: node src/server.js
+    command: sh -c "npm install && node src/server.js"
+   
+    
+    #node src/server.js
