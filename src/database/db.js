@@ -9,7 +9,7 @@ db.serialize(() => {
     email TEXT,
     phone TEXT,
     gender TEXT,    
-    address TEXT,    
+    address TEXT   
   )`);
   
   db.run(`CREATE TABLE IF NOT EXISTS appointments (
