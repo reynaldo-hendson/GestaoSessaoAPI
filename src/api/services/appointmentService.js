@@ -8,7 +8,7 @@ async function getByDate(date) {
 }
 
 async function create(appointmentData) {
-  if (!appointmentData || !appointmentData.date || !appointmentData.patientId) {
+  if (!appointmentData || !appointmentData.date || !appointmentData.patient_id) {
     throw new Error('Dados do agendamento inválidos');
   }
 
