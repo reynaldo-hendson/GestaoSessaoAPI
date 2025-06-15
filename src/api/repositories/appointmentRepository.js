@@ -14,6 +14,22 @@ module.exports = {
     });
   },
 
+  findByDateAndTime: (date, time) => {
+  return new Promise((resolve, reject) => {
+    db.all(
+      `
+      SELECT a.id, a.date, a.time, p.name as patientName
+      FROM appointments a
+      JOIN patients p ON p.id = a.patient_id
+      WHERE a.date = ? AND a.time = ?
+      `,
+      [date, time],
+      (err, rows) => err ? reject(err) : resolve(rows)
+    );
+  });
+},
+
+
   create: ({ patient_id, date, time, status_appointment, appointment_type, value_appointment }) => {
     return new Promise((resolve, reject) => {
       db.run(
