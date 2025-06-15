@@ -8,14 +8,18 @@ async function getByDate(date) {
 }
 
 async function create(appointmentData) {
-  if (!appointmentData || !appointmentData.date || !appointmentData.patient_id) {
+  if (!appointmentData || !appointmentData.date || !appointmentData.time || !appointmentData.patient_id) {
     throw new Error('Dados do agendamento inválidos');
   }
 
-  // Exemplo de regra: não permitir criar se já houver agendamento no mesmo horário
-  const existing = await appointmentRepository.findByDate(appointmentData.date);
+  // Verificar se já há um agendamento no mesmo horário
+  const existing = await appointmentRepository.findByDateAndTime(
+    appointmentData.date,
+    appointmentData.time
+  );
+
   if (existing && existing.length > 0) {
-    throw new Error('Já existe agendamento para essa data e horário');
+    throw new Error('Já existe um agendamento nesse horário');
   }
 
   return appointmentRepository.create(appointmentData);
@@ -61,4 +65,5 @@ module.exports = {
   update,
   remove,
   getByPatient,
+
 };
