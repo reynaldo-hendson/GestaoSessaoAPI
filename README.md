@@ -42,16 +42,20 @@ A aplicação ficará disponível em: http://localhost:3000
 📮 Endpoints da API
 
 🔐 Autenticação
-Método	Rota	Descrição
-POST	/login	Realiza o login
+| Método | Rota     | Descrição       |
+|--------|----------|-----------------|
+| POST   | `/login` | Realiza o login |
 
 👤 Pacientes
-Método Rota Descrição
-POST/patients	Criar paciente
-GET/patients/:id	Buscar paciente por ID
-GET/patients	Listar todos os pacientes
+| Método | Rota             | Descrição                   |
+|--------|------------------|-----------------------------|
+| POST   | `/patients`      | Criar paciente              |
+| GET    | `/patients/:id`  | Buscar paciente por ID      |
+| GET    | `/patients`      | Listar todos os pacientes   |
+| PUT    | `/patients/:id`  | Atualizar dados do paciente |
 
 📦 Payload (POST/PUT):
+   ```json
     {
         "name": "João da Silva",
         "cpf": "12345678900",
@@ -61,18 +65,21 @@ GET/patients	Listar todos os pacientes
         "gender": "Masculino",
         "address": "Rua Exemplo, 123"
     }
-
+   ```
 
 📆 Agendamentos
-Método Rota	Descrição
-POST/appointments	Criar agendamento
-GET/appointments?date=YYYY-MM-DD	Listar agendamentos por data
-GET/appointments/patient/:id	Listar agendamentos de um paciente
-PUT/appointments/:id	Atualizar data e hora de um agendamento
-DELETE/appointments/:id	Cancelar (remover) um agendamento
+
+| Método | Rota                            | Descrição                               |
+| ------ | ------------------------------- | --------------------------------------- |
+| POST   | `/appointments`                 | Criar agendamento                       |
+| GET    | `/appointments?date=YYYY-MM-DD` | Listar agendamentos por data            |
+| GET    | `/appointments/patient/:id`     | Listar agendamentos de um paciente      |
+| PUT    | `/appointments/:id`             | Atualizar data e hora de um agendamento |
+| DELETE | `/appointments/:id`             | Cancelar (remover) um agendamento       |
 
 📦 Payload (POST):
-    {
+   ```json
+    { 
         "patient_id": 1,
         "date": "2025-06-20",
         "time": "10:00",
@@ -80,14 +87,14 @@ DELETE/appointments/:id	Cancelar (remover) um agendamento
         "appointment_type": "sessao",
         "value_appointment": 150
     }
-
+   ```
 📦 Payload (PUT):
-
+```json
     {
         "date": "2025-06-21",
         "time": "11:30"
     }
-
+```
 
 🚫 Regras de agendamento:
 
@@ -97,17 +104,21 @@ DELETE/appointments/:id	Cancelar (remover) um agendamento
 
     O método de update só altera data e hora.
 
-🧪 Executando os testes
+## 🧪 Executando os testes
+
 Para rodar os testes com Jest:
 
-Localmente:
-    npm install
-    npm test
+**Localmente:**
+```bash
+npm install
+npm test
+```
+**Docker (com container ativo):**
+```bash
+docker exec -it gestao-sessao-api-app npm test
+```
 
-Com Docker (container ativo)
-    docker exec -it gestao-sessao-api-app npm test
-
-🗃️ Banco de Dados
+## 🗃️ Banco de Dados
 Utiliza SQLite3 (arquivo local) para simplicidade e persistência.
 
 📌 Regras de negócio
