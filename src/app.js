@@ -13,3 +13,4 @@ app.use('/patients', patientRoutes);
 app.use('/appointments', appointmentRoutes);
 
 module.exports = app;
+
