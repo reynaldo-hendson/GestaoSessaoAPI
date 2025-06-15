@@ -12,14 +12,13 @@ async function create(appointmentData) {
     throw new Error('Dados do agendamento inválidos');
   }
 
-  // Verificar se já há um agendamento no mesmo horário
   const existing = await appointmentRepository.findByDateAndTime(
     appointmentData.date,
     appointmentData.time
   );
 
   if (existing && existing.length > 0) {
-    throw new Error('Já existe um agendamento nesse horário');
+    throw new Error('Já existe um agendamento nesse dia e horário.');
   }
 
   return appointmentRepository.create(appointmentData);
