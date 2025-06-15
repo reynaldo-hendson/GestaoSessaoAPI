@@ -5,6 +5,7 @@ const db = require('../../src/database/db');
 
 jest.mock('../../src/api/repositories/appointmentRepository');
 appointmentRepository.findById = jest.fn();
+appointmentRepository.findByDateAndTime = jest.fn();
 
 describe('Appointment Service', () => {
   afterEach(() => {
@@ -27,30 +28,52 @@ describe('Appointment Service', () => {
     });
   });
 
-  describe('create', () => {
-    it('deve criar um agendamento válido', async () => {
-      const data = { date: '2025-06-10T10:00:00', patientId: 1 };
-      appointmentRepository.findByDate.mockResolvedValue([]);
-      appointmentRepository.create.mockResolvedValue({ id: 1, ...data });
+   describe('create', () => {
+    it('deve criar um agendamento se não houver conflito de data e horário', async () => {
+      const newAppointment = {
+        date: '2025-06-20',
+        time: '09:00',
+        patient_id: 1,
+        status_appointment: 'agendado',
+        appointment_type: 'consulta',
+        value_appointment: 100
+      };
 
-      const result = await appointmentService.create(data);
+      appointmentRepository.findByDateAndTime.mockResolvedValue([]);
+      appointmentRepository.create.mockResolvedValue({ id: 10, ...newAppointment });
 
-      expect(result).toEqual({ id: 1, ...data });
-      expect(appointmentRepository.findByDate).toHaveBeenCalledWith(data.date);
-      expect(appointmentRepository.create).toHaveBeenCalledWith(data);
+      const result = await appointmentService.create(newAppointment);
+
+      expect(appointmentRepository.findByDateAndTime).toHaveBeenCalledWith('2025-06-20', '09:00');
+      expect(appointmentRepository.create).toHaveBeenCalledWith(newAppointment);
+      expect(result).toEqual({ id: 10, ...newAppointment });
+    });
+
+    it('deve lançar erro se já existir agendamento no mesmo dia e horário', async () => {
+      const conflictingAppointment = {
+        date: '2025-06-20',
+        time: '09:00',
+        patient_id: 1
+      };
+
+      appointmentRepository.findByDateAndTime.mockResolvedValue([{ id: 1 }]);
+
+      await expect(appointmentService.create(conflictingAppointment))
+        .rejects
+        .toThrow('Já existe um agendamento nesse dia e horário.');
+
+      expect(appointmentRepository.findByDateAndTime).toHaveBeenCalledWith('2025-06-20', '09:00');
+      expect(appointmentRepository.create).not.toHaveBeenCalled();
     });
 
     it('deve lançar erro se dados estiverem incompletos', async () => {
-      await expect(appointmentService.create({ date: '2025-06-10' }))
-        .rejects.toThrow('Dados do agendamento inválidos');
-    });
+      await expect(appointmentService.create({ date: '2025-06-20' }))
+        .rejects
+        .toThrow('Dados do agendamento inválidos');
 
-    it('deve lançar erro se já existir agendamento na mesma data', async () => {
-      const data = { date: '2025-06-10T10:00:00', patientId: 1 };
-      appointmentRepository.findByDate.mockResolvedValue([{ id: 99 }]);
-
-      await expect(appointmentService.create(data))
-        .rejects.toThrow('Já existe agendamento para essa data e horário');
+      await expect(appointmentService.create(null))
+        .rejects
+        .toThrow('Dados do agendamento inválidos');
     });
   });
 
