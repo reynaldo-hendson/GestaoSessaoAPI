@@ -1,6 +1,9 @@
-# 🧠 Clínica Psicológica - API RESTful
+🧠 Clínica API – Backend
+Este backend foi desenvolvido como parte de um projeto de extensão universitária com o propósito de oferecer uma solução prática, acessível e eficiente para a gestão de pacientes e sessões clínicas, com foco especial no acompanhamento terapêutico psicológico.
+A API segue os princípios RESTful.
 
-API RESTful desenvolvida com **Node.js**, **Express** e **SQLite3**, que permite gerenciar pacientes e agendamentos de sessões com uma psicóloga. A aplicação também é **containerizada com Docker** para facilitar o desenvolvimento e a execução em diferentes ambientes.
+📲 Link do Frontend:
+Você pode acessar o repositório do aplicativo mobile, desenvolvido com React Native, [aqui](https://github.com/reynaldo-hendson/clinic-app).
 
 ---
 
@@ -18,12 +21,11 @@ API RESTful desenvolvida com **Node.js**, **Express** e **SQLite3**, que permite
 
 ## 🛠️ Tecnologias
 
-- [Node.js](https://nodejs.org/)
-- [Express.js](https://expressjs.com/)
-- [SQLite3](https://www.sqlite.org/index.html)
-- [Jest](https://jestjs.io/)
-- [Docker](https://www.docker.com/)
-- [Docker Compose](https://docs.docker.com/compose/)
+- [Node.js](https://nodejs.org/) Estrutura principal da aplicação
+- [Express.js](https://expressjs.com/) Framework para criação das rotas e gerenciamento de requisições HTTP
+- [SQLite3](https://www.sqlite.org/index.html) Banco de dados leve e integrado
+- [Jest](https://jestjs.io/) Testes
+- [Docker](https://www.docker.com/) Containerização da aplicação, facilitando seu deploy e funcionamento em diferentes ambientes de desenvolvimento
 
 ---
 
